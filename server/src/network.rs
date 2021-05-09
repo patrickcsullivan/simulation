@@ -39,7 +39,7 @@ async fn handle_connection(
         future::ok(())
     });
 
-    let handle_channel_messages = receiver.map(|m| -> {""});
+    // let handle_channel_messages = receiver.map(|m| -> {""});
 
     let _ = handle_connection_messages.await;
     senders.lock().unwrap().remove_conn_handler_sender(&addr);

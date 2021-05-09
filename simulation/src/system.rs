@@ -1,5 +1,6 @@
-use super::component::{Position, Velocity};
-use super::resource::ElapsedFramesCount;
+///! ECS systems for the simulation.
+use crate::component::{Position, Velocity};
+use crate::resource::ElapsedFramesCount;
 use specs::{Read, ReadStorage, System, WriteStorage};
 
 pub struct SayHello;

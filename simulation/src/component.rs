@@ -1,3 +1,4 @@
+///! ECS components for the simulation.
 use specs::{Component, VecStorage};
 
 #[derive(Component, Debug)]

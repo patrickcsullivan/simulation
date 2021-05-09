@@ -1,4 +1,8 @@
-use super::{component, frame::Frame, system};
+use simulation::{
+    component::{Position, Velocity},
+    frame::Frame,
+    system,
+};
 use specs::prelude::*;
 
 pub struct State<'a, 'b> {
@@ -11,13 +15,13 @@ impl State<'_, '_> {
     pub fn new() -> Self {
         // Register components.
         let mut world = World::new();
-        world.register::<component::Position>();
-        world.register::<component::Velocity>();
+        world.register::<Position>();
+        world.register::<Velocity>();
 
         let _ = world
             .create_entity()
-            .with(super::component::Position { x: 4.0, y: 7.0 })
-            .with(super::component::Velocity { x: 0.1, y: 0.2 })
+            .with(Position { x: 4.0, y: 7.0 })
+            .with(Velocity { x: 0.1, y: 0.2 })
             .build();
 
         // Set up dispatcher and systems.
