@@ -10,8 +10,8 @@ use futures::pin_mut;
 use simulation::{
     component::{Position, Velocity},
     frame::Frame,
-    resource::ElapsedFramesCount,
-    system::{SayHello, UpdatePos},
+    resources::ElapsedFramesCount,
+    systems::{SayHello, UpdatePos},
 };
 use specs::{Builder, DispatcherBuilder, World, WorldExt};
 use state::State;

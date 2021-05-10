@@ -1,5 +1,5 @@
 [package]
-name = "server"
+name = "simulation_server"
 version = "0.1.0"
 authors = ["Patrick Sullivan <patrick.sullivan@hey.com>"]
 edition = "2018"

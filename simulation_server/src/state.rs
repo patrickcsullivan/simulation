@@ -1,7 +1,7 @@
 use simulation::{
     component::{Position, Velocity},
     frame::Frame,
-    system,
+    systems,
 };
 use specs::prelude::*;
 
@@ -26,9 +26,9 @@ impl State<'_, '_> {
 
         // Set up dispatcher and systems.
         let mut dispatcher = DispatcherBuilder::new()
-            .with(system::SayHello, "say_hello", &[])
-            .with(system::UpdatePos, "update_pos", &["say_hello"])
-            .with(system::SayHello, "hello_updated", &["update_pos"])
+            .with(systems::SayHello, "say_hello", &[])
+            .with(systems::UpdatePos, "update_pos", &["say_hello"])
+            .with(systems::SayHello, "hello_updated", &["update_pos"])
             .build();
         dispatcher.setup(&mut world);
 
