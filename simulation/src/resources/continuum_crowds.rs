@@ -1,12 +1,15 @@
-mod resource;
-mod system;
-
 use crate::collections::grid::RowMajorGrid;
 
-// 1 cell is 4 m wide
+#[derive(Debug)]
+pub struct SharedGrid(pub RowMajorGrid<SharedCell>);
 
-const GRID_WIDTH: usize = 8; // 8 cells wide
-const GRID_HEIGHT: usize = 8; // 8 cells high
+#[derive(Debug)]
+pub struct GroupGrids(
+    pub RowMajorGrid<GroupCell>,
+    pub RowMajorGrid<GroupCell>,
+    pub RowMajorGrid<GroupCell>,
+    pub RowMajorGrid<GroupCell>,
+);
 
 #[derive(Debug, Default, Clone)]
 pub struct SharedCell {
@@ -38,14 +41,3 @@ pub struct GroupCell {
 
 #[derive(Debug, Default, Clone)]
 pub struct GroupCellFace {}
-
-pub fn init() {
-    let mut min_height_grad: f32 = 0.0;
-    let mut max_height_grad: f32 = 0.0;
-    let mut shared_grid = RowMajorGrid::new(GRID_WIDTH, GRID_HEIGHT, SharedCell::default());
-
-    let mut group_a_grid = RowMajorGrid::new(GRID_WIDTH, GRID_HEIGHT, GroupCell::default());
-    let mut group_b_grid = RowMajorGrid::new(GRID_WIDTH, GRID_HEIGHT, GroupCell::default());
-    let mut group_c_grid = RowMajorGrid::new(GRID_WIDTH, GRID_HEIGHT, GroupCell::default());
-    let mut group_d_grid = RowMajorGrid::new(GRID_WIDTH, GRID_HEIGHT, GroupCell::default());
-}

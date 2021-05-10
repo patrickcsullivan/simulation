@@ -1,16 +1,9 @@
-use std::usize;
-
-use super::{
-    resource::{GroupGrids, SharedGrid},
-    SharedCell,
-};
-use crate::resource::ElapsedFramesCount;
 use crate::{
     collections::grid::Grid,
     component::{Position, Velocity},
+    resources::continuum_crowds::SharedGrid,
 };
-use specs::{Join, Read, ReadStorage, System, Write, WriteExpect, WriteStorage};
-use std::cmp::min;
+use specs::{Join, ReadStorage, System, WriteExpect};
 
 pub struct ResetShared;
 
