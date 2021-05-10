@@ -1,6 +1,7 @@
 use super::Grid;
 
 /// Grid in which cells are stored in row-major order.
+#[derive(Debug)]
 pub struct RowMajorGrid<T> {
     inner_width: usize,
     inner_height: usize,
@@ -35,7 +36,9 @@ impl<T: Clone> RowMajorGrid<T> {
             cells: vec![default; inner_width * inner_height],
         }
     }
+}
 
+impl<T> RowMajorGrid<T> {
     fn index(&self, x: usize, y: usize) -> Option<usize> {
         pos_to_index(
             x,
@@ -68,6 +71,14 @@ impl<T: Clone> Grid<T> for RowMajorGrid<T> {
     fn get(&self, x: usize, y: usize) -> Option<&T> {
         if let Some(i) = self.index(x, y) {
             Some(&self.cells[i])
+        } else {
+            None
+        }
+    }
+
+    fn get_mut(&mut self, x: usize, y: usize) -> Option<&mut T> {
+        if let Some(i) = self.index(x, y) {
+            Some(&mut self.cells[i])
         } else {
             None
         }
