@@ -10,7 +10,7 @@ use futures::pin_mut;
 use simulation::{
     component::{Position, Velocity},
     frame::Frame,
-    resources::ElapsedFramesCount,
+    resources::DurationSinceLastFrame,
     systems::{SayHello, UpdatePos},
 };
 use specs::{Builder, DispatcherBuilder, World, WorldExt};
@@ -49,12 +49,12 @@ async fn step(state: &mut State<'_, '_>) -> Result<()> {
         }
         let next_frame = frame.next(Instant::now());
         state.frame = Some(next_frame);
-        state
-            .world
-            .insert(ElapsedFramesCount(next_frame.index - frame.index))
+        state.world.insert(DurationSinceLastFrame(
+            next_frame.start_time - frame.start_time,
+        ))
     } else {
         state.frame = Some(Frame::new(FRAME_DURATION, Instant::now()));
-        state.world.insert(ElapsedFramesCount(0));
+        state.world.insert(DurationSinceLastFrame::default());
     }
 
     // Executate a frame of the simulation.

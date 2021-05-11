@@ -3,7 +3,24 @@ use crate::{
     component::{Position, Velocity},
     resources::continuum_crowds::SharedGrid,
 };
-use specs::{Join, ReadStorage, System, WriteExpect};
+use specs::{Join, ReadExpect, ReadStorage, System, WriteExpect};
+
+pub struct PrintDensityGrid;
+
+impl<'a> System<'a> for PrintDensityGrid {
+    type SystemData = ReadExpect<'a, SharedGrid>;
+
+    fn run(&mut self, data: Self::SystemData) {
+        let shared_grid = data;
+        println!("------------------------------------------------------------");
+        for row in shared_grid.0.row_iter() {
+            for cell in row.iter() {
+                print!("|{:.2}", cell.density);
+            }
+            println!("|");
+        }
+    }
+}
 
 pub struct ResetShared;
 

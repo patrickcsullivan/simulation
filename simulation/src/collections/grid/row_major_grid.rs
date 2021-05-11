@@ -65,6 +65,13 @@ impl<T> RowMajorGrid<T> {
             self.y_offset,
         )
     }
+
+    pub fn row_iter(&self) -> RowIter<T> {
+        RowIter {
+            grid: &self,
+            prev_row: None,
+        }
+    }
 }
 
 impl<T: Clone> Grid<T> for RowMajorGrid<T> {
@@ -176,6 +183,33 @@ impl Iterator for PositionIter {
         };
         self.prev = next;
         next
+    }
+}
+
+pub struct RowIter<'a, T> {
+    // Iter must live as long as the grid.
+    grid: &'a RowMajorGrid<T>,
+    prev_row: Option<usize>,
+}
+
+impl<'a, T> Iterator for RowIter<'a, T> {
+    type Item = &'a [T];
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let next_row = if let Some(row) = self.prev_row {
+            row + 1
+        } else {
+            0
+        };
+
+        if next_row < self.grid.inner_height {
+            self.prev_row = Some(next_row);
+            let start = next_row * self.grid.inner_width;
+            let end = start + self.grid.inner_width;
+            Some(&self.grid.cells[start..end])
+        } else {
+            None
+        }
     }
 }
 

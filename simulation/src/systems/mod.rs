@@ -1,9 +1,9 @@
 ///! ECS systems for the simulation.
-mod continuum_crowds;
+pub mod continuum_crowds;
 
 use crate::component::{Position, Velocity};
-use crate::resources::ElapsedFramesCount;
-use specs::{Read, ReadStorage, System, WriteStorage};
+use crate::resources::DurationSinceLastFrame;
+use specs::{Read, ReadExpect, ReadStorage, System, WriteStorage};
 
 pub struct SayHello;
 
@@ -23,18 +23,18 @@ pub struct UpdatePos;
 
 impl<'a> System<'a> for UpdatePos {
     type SystemData = (
-        Read<'a, ElapsedFramesCount>,
+        Read<'a, DurationSinceLastFrame>,
         ReadStorage<'a, Velocity>,
         WriteStorage<'a, Position>,
     );
 
     fn run(&mut self, data: Self::SystemData) {
-        let (delta, vel, mut pos) = data;
-        let delta = delta.0;
+        let (delta_t, vel, mut pos) = data;
+        let delta_t = delta_t.0;
         use specs::Join;
         for (vel, pos) in (&vel, &mut pos).join() {
-            pos.x += vel.x * delta as f32;
-            pos.y += vel.y * delta as f32;
+            pos.x += vel.x * delta_t.as_secs_f32();
+            pos.y += vel.y * delta_t.as_secs_f32();
         }
     }
 }
